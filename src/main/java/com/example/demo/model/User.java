@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "user")
@@ -58,13 +59,7 @@ public class User {
         this.password = password;
     }
 
-    public String getActive() {
-        return active;
-    }
 
-    public void setActive(String active) {
-        this.active = active;
-    }
 
     public String getRole() {
         return role;
@@ -74,11 +69,21 @@ public class User {
         this.role = role;
     }
 
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+
     @Column(name = "active")
-    private String active;
+    private int active;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private String role;
 
+    public void setRole(HashSet<Role> roles) {
+    }
 }
