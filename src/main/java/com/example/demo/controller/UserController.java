@@ -2,6 +2,9 @@ package com.example.demo.controller;
 
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -10,19 +13,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
-
 @Controller
 public class UserController {
 
+    @Autowired
     private UserService userService;
-    @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
-    public ModelAndView login()
-    {
+
+    @RequestMapping(value= {"/", "/login"}, method=RequestMethod.GET)
+    public ModelAndView login() {
         ModelAndView model = new ModelAndView();
+
         model.setViewName("user/login");
         return model;
     }
+
     @RequestMapping(value= {"/signup"}, method=RequestMethod.GET)
     public ModelAndView signup() {
         ModelAndView model = new ModelAndView();
@@ -59,7 +63,7 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
 
-        model.addObject("userName", user.getFisrtname() + " " + user.getLastname());
+        model.addObject("userName", user.getFirstname() + " " + user.getLastname());
         model.setViewName("home/home");
         return model;
     }

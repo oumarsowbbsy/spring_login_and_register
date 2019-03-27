@@ -1,8 +1,17 @@
 package com.example.demo.model;
 
-import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
@@ -16,7 +25,7 @@ public class User {
     private String email;
 
     @Column(name = "firstname")
-    private String fisrtname;
+    private String firstname;
 
     @Column(name = "lastname")
     private String lastname;
@@ -24,8 +33,19 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "active")
+    private int active;
+
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(name="user_role", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="role_id"))
+    private Set<Role> roles;
+
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -36,12 +56,12 @@ public class User {
         this.email = email;
     }
 
-    public String getFisrtname() {
-        return fisrtname;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setFisrtname(String fisrtname) {
-        this.fisrtname = fisrtname;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
     public String getLastname() {
@@ -60,14 +80,6 @@ public class User {
         this.password = password;
     }
 
-    public Set<Role> getRole() {
-        return role;
-    }
-
-    public void setRole(Set<Role> role) {
-        this.role = role;
-    }
-
     public int getActive() {
         return active;
     }
@@ -76,13 +88,12 @@ public class User {
         this.active = active;
     }
 
-    @Column(name = "active")
-    private int active;
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
-    @ManyToMany
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> role;
-
-    public void setRole(HashSet<Role> roles) {
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
+
